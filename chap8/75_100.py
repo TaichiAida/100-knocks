@@ -159,72 +159,10 @@ def train(eta):
     #return eta, logL_now
     return theta
 
-"""
-# 学習率の最適な値を求める
-eta = 1e-7
-
-# グラフ用
-graph_x = []
-graph_y = []
-
-while eta < 1:
-    eta, logL_now = train(eta)
-    graph_x.append(eta)
-    graph_y.append(logL_now)
-    #graph_y.append(np.exp(logL_now))
-    eta *= 10
-
-# グラフの描画
-plt.title("train rate - likelyhood")
-plt.xlabel("eta")
-plt.ylabel("logL")
-#plt.scatter(graph_x, graph_y)
-plt.xscale("log")
-plt.scatter(graph_x, graph_y)
-plt.show()
-"""
-
-# グラフより、学習率etaが1e-1の時に目的関数（対数尤度）が最大
-# よって、学習率eta = 1e-1 にする
 eta = 1e-1
-theta = train(eta)
-
-# 評価
-test = "real women have curves doesn't offer any easy answers . "
-#test = "hopelessly inane , humorless and under-inspired . "
-
-test = test.split(" ")
-test_f = get_feature(test)
-test_x = []
-x = []
+theta = np.load("theta.npy")
 with open(fname_feature) as f:
     features = f.readlines()
-    for feature in features:
-        if "\n" in feature:
-            feature = re.sub(r"\n","",feature)
-        if feature in test_f:
-            x.append(int(1))
-            #print(feature)
-        else:
-            x.append(int(0))
-test_x.append(x)
-test_x = np.array(test_x)
-#print(test_x)
-
-judge = np.dot(test_x,theta)
-#judge = np.dot(theta,test_x)
-print(judge)
-
-if judge >= 0:
-    y = 1
-    print(f"y:{y},positive")
-else:
-    y = 0
-    print(f"y:{y},negative")
-
-# 予測確率
-logp = logL(theta, test_x, y)
-print(f"test_P:{np.exp(logp)}")
 
 # 重みが高い素性top10
 # 重みが低い素性top10

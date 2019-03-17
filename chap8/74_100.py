@@ -159,35 +159,11 @@ def train(eta):
     #return eta, logL_now
     return theta
 
-"""
-# 学習率の最適な値を求める
-eta = 1e-7
-
-# グラフ用
-graph_x = []
-graph_y = []
-
-while eta < 1:
-    eta, logL_now = train(eta)
-    graph_x.append(eta)
-    graph_y.append(logL_now)
-    #graph_y.append(np.exp(logL_now))
-    eta *= 10
-
-# グラフの描画
-plt.title("train rate - likelyhood")
-plt.xlabel("eta")
-plt.ylabel("logL")
-#plt.scatter(graph_x, graph_y)
-plt.xscale("log")
-plt.scatter(graph_x, graph_y)
-plt.show()
-"""
-
-# グラフより、学習率etaが1e-1の時に目的関数（対数尤度）が最大
+# 73のグラフより、学習率etaが1e-1の時に目的関数（対数尤度）が最大
 # よって、学習率eta = 1e-1 にする
 eta = 1e-1
-theta = train(eta)
+theta = np.load("theta.npy")
+print(theta)
 
 # 評価
 test = "real women have curves doesn't offer any easy answers . "
@@ -209,10 +185,8 @@ with open(fname_feature) as f:
             x.append(int(0))
 test_x.append(x)
 test_x = np.array(test_x)
-#print(test_x)
 
 judge = np.dot(test_x,theta)
-#judge = np.dot(theta,test_x)
 print(judge)
 
 if judge >= 0:

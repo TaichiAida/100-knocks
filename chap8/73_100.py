@@ -79,10 +79,17 @@ def get_feature(words_splited):
 def get_xy():
     train_y = []
     train_x = []
+    
+    i = 0
+
     with open(fname_sentiment) as data:
         lines = data.readlines()
         for line in lines:
             words = line.split(" ")
+
+            i +=  1
+            if i > 100:
+                break
 
             # ラベルyの獲得
             if words[0] == "+1":
@@ -134,10 +141,10 @@ def train(eta):
         logL_past = logL_now
     print(f"eta:{eta}\tlogL:{logL_now}\tL:{np.exp(logL_now)}")
     # 学習率etaの最適な値を求めるときだけ以下の返り値
-    return eta, logL_now
-    #return theta
+    #return eta, logL_now
+    return theta
 
-
+"""
 # 学習率の最適な値を求める
 eta = 1e-7
 
@@ -152,6 +159,7 @@ while eta < 1:
     #graph_y.append(np.exp(logL_now))
     eta *= 10
 
+
 # グラフの描画
 plt.title("train rate - likelyhood")
 plt.xlabel("eta")
@@ -160,44 +168,12 @@ plt.ylabel("logL")
 plt.xscale("log")
 plt.scatter(graph_x, graph_y)
 plt.show()
-
+"""
 
 # グラフより、学習率etaが1e-1の時に目的関数（対数尤度）が最大
 # よって、学習率eta = 1e-1 にする
 eta = 1e-1
+# 学習
 theta = train(eta)
-
-"""
-# 評価
-test = "real women have curves doesn't offer any easy answers . "
-#test = "hopelessly inane , humorless and under-inspired . "
-
-test = test.split(" ")
-test_f = get_feature(test)
-test_x = []
-x = []
-with open(fname_feature) as f:
-    features = f.readlines()
-    for feature in features:
-        if "\n" in feature:
-            feature = re.sub(r"\n","",feature)
-        if feature in test_f:
-            x.append(int(1))
-            #print(feature)
-        else:
-            x.append(int(0))
-test_x.append(x)
-test_x = np.array(test_x)
-#print(test_x)
-
-judge = np.dot(test_x,theta)
-#judge = np.dot(theta,test_x)
-print(judge)
-
-if judge >= 0:
-    y = 1
-    print(f"y:{y},positive")
-else:
-    y = 0
-    print(f"y:{y},negative")
-"""
+# 保存
+np.save("theta.npy",theta)
