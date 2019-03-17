@@ -81,22 +81,22 @@ def get_feature(words_splited):
 def get_xy():
     train_y = []
     train_x = []
-    """
+    #"""
     i = 0
-    """
+    #"""
     with open(fname_sentiment) as data:
         lines = data.readlines()
         for line in lines:
             words = line.split(" ")
 
-            """
+            #"""
             i += 1
             if i > 100:
                 break
             #print(words[1:])
             #print(raw_data)
             #print(type(raw_data[0]))
-            """
+            #"""
 
             # ラベルyの獲得
             if words[0] == "+1":
@@ -225,3 +225,31 @@ else:
 # 予測確率
 logp = logL(theta, test_x, y)
 print(f"test_P:{np.exp(logp)}")
+
+# 重みが高い素性top10
+# 重みが低い素性top10
+# thetaの中で最も大きい/小さい要素のindexを抽出
+# 対応するものをfeaturesリストから抽出
+print("--max_10_features--")
+"""
+print(f"max_theta:{theta.max()}")
+index_max = theta.argmax()
+print(f"max_theta_argmax:{theta[index_max]}")
+print(f"max_feature:{features[index_max]}")
+"""
+list_ = np.argsort(-1*theta)[:10]
+for index in list_:
+    print(theta[index])
+    print(features[index])
+
+print("--min_10_features--")
+"""
+print(f"min_theta:{theta.min()}")
+index_min = theta.argmin()
+print(f"min_theta_argmax:{theta[index_min]}")
+print(f"min_feature:{features[index_min]}")
+"""
+list_ = np.argsort(theta)[:10]
+for index in list_:
+    print(theta[index])
+    print(features[index])
