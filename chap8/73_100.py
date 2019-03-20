@@ -80,16 +80,10 @@ def get_xy():
     train_y = []
     train_x = []
     
-    i = 0
-
     with open(fname_sentiment) as data:
         lines = data.readlines()
         for line in lines:
             words = line.split(" ")
-
-            i +=  1
-            if i > 100:
-                break
 
             # ラベルyの獲得
             if words[0] == "+1":
